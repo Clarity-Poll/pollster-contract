@@ -9,7 +9,7 @@ Pollster allows you to:
 - Cast one vote per user (no duplicate voting)
 - Count votes in real-time
 - View poll results
-- Close polls to prevent further voting
+- Close polls to prevent further voting.
 
 Perfect for:
 - Community decisions
