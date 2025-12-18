@@ -946,12 +946,22 @@ describe("Integration Tests", () => {
     );
 
     // Same user votes on both polls
-    simnet.callPublicFn("pollster", "vote", [Cl.uint(0), Cl.uint(0)], wallet3);
-    simnet.callPublicFn("pollster", "vote", [Cl.uint(1), Cl.uint(1)], wallet3);
+    const vote1 = simnet.callPublicFn(
+      "pollster",
+      "vote",
+      [Cl.uint(0), Cl.uint(0)],
+      wallet3
+    );
+    const vote2 = simnet.callPublicFn(
+      "pollster",
+      "vote",
+      [Cl.uint(1), Cl.uint(1)],
+      wallet3
+    );
 
-    // Verify both polls were created and votes were cast successfully
-    expect(poll1.result).toBeOk(Cl.uint(0));
-    expect(poll2.result).toBeOk(Cl.uint(1));
+    // Verify both votes were successful
+    expect(vote1.result).toBeOk(Cl.bool(true));
+    expect(vote2.result).toBeOk(Cl.bool(true));
   });
 
   it("handles high vote counts correctly", () => {
@@ -968,12 +978,29 @@ describe("Integration Tests", () => {
     );
 
     // Cast multiple votes from different users
-    simnet.callPublicFn("pollster", "vote", [Cl.uint(0), Cl.uint(0)], wallet1);
-    simnet.callPublicFn("pollster", "vote", [Cl.uint(0), Cl.uint(0)], wallet2);
-    simnet.callPublicFn("pollster", "vote", [Cl.uint(0), Cl.uint(1)], wallet3);
+    const vote1 = simnet.callPublicFn(
+      "pollster",
+      "vote",
+      [Cl.uint(0), Cl.uint(0)],
+      wallet1
+    );
+    const vote2 = simnet.callPublicFn(
+      "pollster",
+      "vote",
+      [Cl.uint(0), Cl.uint(0)],
+      wallet2
+    );
+    const vote3 = simnet.callPublicFn(
+      "pollster",
+      "vote",
+      [Cl.uint(0), Cl.uint(1)],
+      wallet3
+    );
 
-    // Verify poll was created successfully
-    expect(createResponse.result).toBeOk(Cl.uint(0));
+    // Verify all votes were successful
+    expect(vote1.result).toBeOk(Cl.bool(true));
+    expect(vote2.result).toBeOk(Cl.bool(true));
+    expect(vote3.result).toBeOk(Cl.bool(true));
   });
 
   it("ensures vote isolation between polls", () => {
